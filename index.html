@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Math Drawer - GeoDraw</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="header-app">
+    <div class="header-title">NTBM</div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div id="layout">
+
+    <!-- ===== LEFT TOOLBAR ===== -->
+    <aside id="toolbar">
+
+      <div class="group">
+
+        <button class="tool" data-tool="point">
+          <svg viewBox="0 0 24 24" class="icon">
+            <circle cx="12" cy="12" r="4" stroke="black" stroke-width="2" fill="none"/>
+          </svg>
+          Điểm
+        </button>
+
+        <button class="tool" data-tool="segment">
+          <svg viewBox="0 0 24 24" class="icon">
+            <line x1="5" y1="19" x2="19" y2="5" stroke="black" stroke-width="2"/>
+          </svg>
+          Đoạn Thẳng
+        </button>
+
+        <button class="tool" data-tool="segment-dashed">
+          <svg viewBox="0 0 24 24" class="icon">
+            <line x1="5" y1="19" x2="19" y2="5" 
+                  stroke="black" stroke-width="2" stroke-dasharray="4 3"/>
+          </svg>
+          Đoạn Thẳng (Nét Đứt)
+        </button>
+
+        <button class="tool" data-tool="line">
+          <svg viewBox="0 0 24 24" class="icon">
+            <line x1="2" y1="22" x2="22" y2="2" stroke="black" stroke-width="2"/>
+          </svg>
+          Đường Thẳng
+        </button>
+
+        <button class="tool" data-tool="line-dashed">
+          <svg viewBox="0 0 24 24" class="icon">
+            <line x1="2" y1="22" x2="22" y2="2" 
+                  stroke="black" stroke-width="2" stroke-dasharray="4 3"/>
+          </svg>
+          Đường Thẳng (Nét Đứt)
+        </button>
+
+        <button class="tool" data-tool="circle">
+          <svg viewBox="0 0 24 24" class="icon">
+            <circle cx="12" cy="12" r="8" stroke="black" stroke-width="2" fill="none"/>
+          </svg>
+          Đường Tròn
+        </button>
+
+        <button class="tool" data-tool="circle-dashed">
+          <svg viewBox="0 0 24 24" class="icon">
+            <circle cx="12" cy="12" r="8" stroke="black" stroke-width="2" 
+                    fill="none" stroke-dasharray="4 3"/>
+          </svg>
+          Đường Tròn (Nét Đứt)
+        </button>
+
+        <button class="tool" data-tool="text">
+          <svg viewBox="0 0 24 24" class="icon">
+            <text x="4" y="18" font-size="16" font-family="Arial">T</text>
+          </svg>
+          Text
+        </button>
+
+        <button class="tool" data-tool="move">
+          <svg viewBox="0 0 24 24" class="icon">
+            <path d="M12 2 L15 6 H13 V11 H11 V6 H9 L12 2Z 
+                    M12 22 L9 18 H11 V13 H13 V18 H15 L12 22Z
+                    M2 12 L6 9 V11 H11 V13 H6 V15 L2 12Z
+                    M22 12 L18 15 V13 H13 V11 H18 V9 L22 12Z"
+                  fill="black"/>
+          </svg>
+          Di Chuyển
+        </button>
+
+      </div>
+
+
+      <div class="group prebuilt-group">
+        <label for="prebuiltShapes">Hình Có Sẵn</label>
+        <select id="prebuiltShapes">
+          <option value="">(Chọn hình)</option>
+          <option value="box">Hộp ABCD.A'B'C'D'</option>
+          <option value="pyramid_general">Chóp S.ABCD (tứ giác bất kỳ)</option>
+          <option value="pyramid_parallelogram">Chóp S.ABCD (ABCD bình hành)</option>
+          <option value="pyramid_trapezoid">Chóp S.ABCD (ABCD thang)</option>
+          <option value="pyramid_triangle">Chóp S.ABC</option>
+        </select>
+      </div>
+
+    </aside>
+
+    <!-- ===== RIGHT CANVAS AREA ===== -->
+  <main id="canvas-wrap">
+    <svg id="board" xmlns="http://www.w3.org/2000/svg" tabindex="0">
+
+      <defs>
+
+        <!-- GRID nhỏ 24px -->
+        <pattern id="gridSmall" width="24" height="24" patternUnits="userSpaceOnUse">
+          <path d="M 24 0 L 0 0 0 24" 
+                fill="none" 
+                stroke="rgba(0,0,0,0.07)" 
+                stroke-width="1"/>
+        </pattern>
+
+        <!-- GRID lớn 120px (5 ô nhỏ) -->
+        <pattern id="gridBig" width="120" height="120" patternUnits="userSpaceOnUse">
+          <rect width="120" height="120" fill="url(#gridSmall)"/>
+          <path d="M 120 0 L 0 0 0 120" 
+                fill="none" 
+                stroke="rgba(1,0,0,1)"
+                stroke-width="1.5"/>
+        </pattern>
+
+      </defs>
+
+      <!-- Lưới lớn (đậm hơn) -->
+      <rect x="0" y="0" width="100%" height="100%" fill="url(#gridBig)" />
+
+    </svg>
+  </main>
+
+
+
+  <!-- ===== CONTEXT MENU ===== -->
+  <div id="context-menu" class="hidden" role="menu">
+    <div class="cm-item" data-cm="change-color">Change color</div>
+    <div class="cm-item" data-cm="toggle-dash">Toggle dashed</div>
+    <div class="cm-item" data-cm="delete">Delete</div>
+    <div class="cm-item" data-cm="rename-point">Rename point</div>
+  </div>
+
+  <!-- ===== SCRIPTS (giữ nguyên để không phá logic) ===== -->
+  <script src="utils/id.js"></script>
+  <script src="utils/helpers.js"></script>
+  <script src="utils/geometry.js"></script>
+
+  <script src="core/state.js"></script>
+  <script src="core/objects.js"></script>
+  <script src="core/renderer.js"></script>
+  <script src="core/tools.js"></script>
+  <script src="core/events.js"></script>
+
+  <script src="shapes/box.js"></script>
+  <script src="shapes/pyramid_general.js"></script>
+  <script src="shapes/pyramid_parallelogram.js"></script>
+  <script src="shapes/pyramid_trapezoid.js"></script>
+  <script src="shapes/pyramid_triangle.js"></script>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
