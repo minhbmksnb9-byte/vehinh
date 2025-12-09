@@ -710,11 +710,11 @@
     }
 
     const baseItems = [
-      {key:'change-color', label:'Change color'},
-      {key:'toggle-dash', label:'Toggle dashed'},
-      {key:'delete', label:'Delete'},
-      {key:'rename-point', label:'Rename point'},
-      {key:'edit-text', label:'Edit Text'}
+      {key:'change-color', label:'Đổi màu'},
+      {key:'toggle-dash', label:'Chuyển Thành Nét Đứt'},
+      {key:'delete', label:'Xóa'},
+      {key:'rename-point', label:'Đổi Tên Điểm'},
+      {key:'edit-text', label:'Chỉnh Sửa Văn Bản'},
     ];
     if(contextMenu) contextMenu.innerHTML = '';
 
